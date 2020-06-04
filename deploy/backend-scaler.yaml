@@ -1,0 +1,21 @@
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: backend
+  namespace: default
+  labels:
+    deploymentName: backend
+spec:
+  scaleTargetRef:
+    deploymentName: backend
+  pollingInterval: 5  # Optional. Default: 30 seconds
+  cooldownPeriod:  60 # Optional. Default: 300 seconds
+  minReplicaCount: 0  # Optional. Default: 0
+  maxReplicaCount: 5  # Optional. Default: 100
+  triggers:
+  - type: azure-servicebus
+    metadata:
+      topicName: A
+      subscriptionName: backend
+      connection: TopicSbConnectionString
+      queueLength: "5"

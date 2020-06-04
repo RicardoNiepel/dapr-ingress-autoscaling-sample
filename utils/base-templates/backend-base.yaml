@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend
+  namespace: default
+data:
+  TopicSbConnectionString: "REPLACE_SB_CONNECTION_STRING"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: default
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "backend"
+        dapr.io/port: "3000"
+    spec:
+      containers:
+      - name: backend
+        image: IMAGE_NAME
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: backend

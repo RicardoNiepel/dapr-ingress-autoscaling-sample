@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/id: "frontend"
+        dapr.io/port: "8080"
+    spec:
+      containers:
+      - name: frontend
+        image: IMAGE_NAME
+        ports:
+        - containerPort: 8080

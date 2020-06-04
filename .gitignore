@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+deploy/azure-service-bus.yaml
+deploy/frontend.yaml
+deploy/backend.yaml
+deploy/redis.yaml
+requests.http
